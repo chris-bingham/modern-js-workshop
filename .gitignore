@@ -5,3 +5,5 @@ dist
 .DS_Store
 .cache
 week04/credentials.js
+final-project/.jshintrc
+final-project/credentials.js
