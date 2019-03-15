@@ -1,17 +1,26 @@
 import { getMoviesFromSearchQuery } from "./movieData";
 
-const searchForm = document.getElementById("search-form");
 const searchField = document.getElementById("search-movies");
 const searchResultsEl = document.getElementById("search-results");
 
 const handleSearchTrigger = (e) => {
     e.preventDefault();
-    if (searchField.value) {
+    if (searchField.value.length === 0) {
+        setResultsHtml("");
+    } else if (searchField.value.length > 2) {
         getResults(searchField.value);
+    } else {
+        setResultsHtml(
+            "<h2>Keep typing, we need three characters to search</h2>"
+        );
     }
 };
 
-searchForm.onsubmit = handleSearchTrigger;
+const setResultsHtml = (html) => {
+    searchResultsEl.innerHTML = html;
+};
+
+searchField.onkeyup = handleSearchTrigger;
 
 const getResults = async (query) => {
     const results = await getMoviesFromSearchQuery(searchField.value);
@@ -34,7 +43,7 @@ const showNoResults = (query) => {
 
 const formatMovieHtml = (movie) => {
     return `<article class='movie-entry' data-imdbid='${
-        Movie.imdbID
+        movie.imdbID
     }'>${getPoster(movie)}${formatH4(movie.Title)}</article>`;
 };
 
